@@ -5,11 +5,13 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+@SuppressWarnings("serial")
 @WebServlet("/UploadServlet")
 @MultipartConfig(fileSizeThreshold=1024*1024*2,
                  maxFileSize=1024*1024*10,
                  maxRequestSize=1024*1024*50)
 public class ServiceHandler extends HttpServlet {
+	@SuppressWarnings("unused")
 	private String environmentalVariable = null;
 	private static long jobNumber = 0;
 

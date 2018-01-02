@@ -4,8 +4,10 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+@SuppressWarnings("serial")
 public class ServicePollHandler extends HttpServlet {
 	public void init() throws ServletException {
+		@SuppressWarnings("unused")
 		ServletContext ctx = getServletContext();
 	}//init
 
