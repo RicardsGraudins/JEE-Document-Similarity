@@ -17,10 +17,7 @@ public class ServiceHandler extends HttpServlet {
 	@SuppressWarnings("unused")
 	private String environmentalVariable = null;
 	private static long jobNumber = 0;
-	//shared variables
-	public static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
-	//
-	//
+	private static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
 	
 	public ServiceHandler(){
 		super();
@@ -34,11 +31,7 @@ public class ServiceHandler extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
 		DatabaseImpl dbImpl = new DatabaseImpl();
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-		dispatcher.forward(req, resp);
 		
-		
-		/* 
 		resp.setContentType("text/html"); 	
 		PrintWriter out = resp.getWriter(); 
 		String title = req.getParameter("txtTitle");
@@ -75,21 +68,19 @@ public class ServiceHandler extends HttpServlet {
 		out.print("<font color=\"0000ff\">");
 		BufferedReader br = new BufferedReader(new InputStreamReader(part.getInputStream()));
 		String line = null;
+		String text = "";
 		while ((line = br.readLine()) != null) {
 			out.print(line);
+			text = text + line;
 		}
-		*/
-		//ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
-		//DatabaseImpl dbImpl = new DatabaseImpl();
 		//Save the uploaded document to db4o
-		/*
-		Document d = new Document(title, line);
+		Document d = new Document(title, text);
 		dbImpl.storeDocument(db, d);
-		dbImpl.retrieveAll(db);
-		System.out.println("============================================");
 		dbImpl.retrieveDocument(db, d);
-		*/
-		//out.print("</font>");	
+		dbImpl.deleteDocument(db, d);
+		dbImpl.retrieveAll(db);
+		
+		out.print("</font>");	
 	}//doGet
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
