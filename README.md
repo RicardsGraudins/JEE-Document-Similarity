@@ -24,9 +24,16 @@ Servlets provide a component-based, platform-independent method for building Web
 Java Server Pages (JSP) is a server-side programming technology used to create web application just like Servlet technology. It can be thought of as an extension to servlet because it provides more functionality than servlet such as expression language, jstl etc.
 A JSP page consists of HTML tags and JSP tags. The jsp pages are easier to maintain than servlet because we can separate designing and development. It provides some additional features such as Expression Language, Custom Tag etc.
 
+## What is DB4O:
+DB4O represents an object-oriented database model. One of its main goals is to provide an easy and native interface to persistence for object oriented programming languages. Development with db4o database does not require a separate data model creation, the application’s class model defines the structure of the data. db4o attempts to avoid the object/relational impedance mismatch by eliminating the relational layer from a software project. db4o is written in Java and .NET and provides the respective APIs. It can run on any operating system that supports Java or .NET. It is offered under licenses including GPL, the db4o Opensource Compatibility License (dOCL), and a commercial license for use in proprietary software.  
+
+A simple how to get started with DB4O tutorial is available [here](http://www.odbms.org/wp-content/uploads/2013/11/db4o-7.10-tutorial-java.pdf).
+
 ## How to run:
 
 ## References:
 * [Apache Tomcat](http://tomcat.apache.org/)
 * [Servlets](https://www.tutorialspoint.com/servlets/)
 * [JavaServer Pages](https://www.tutorialspoint.com/jsp/)
+* [DB4O](https://en.wikipedia.org/wiki/Db4o)
+* [DB4O Tutorial](http://www.odbms.org/wp-content/uploads/2013/11/db4o-7.10-tutorial-java.pdf)
