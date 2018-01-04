@@ -15,6 +15,6 @@ public interface DatabaseService {
 	public void retrieveDocument(ObjectContainer db, Document d) throws IOException;
 	public void storeDocument(ObjectContainer db, Document d) throws IOException;
 	public void deleteDocument(ObjectContainer db, Document d) throws IOException;
-	public void updateDocument(ObjectContainer db, Document d, int id) throws IOException;
+	public void updateDocument(ObjectContainer db, Document d, String id) throws IOException;
 	public void listResult(@SuppressWarnings("rawtypes") ObjectSet result);
 }//DatabaseService

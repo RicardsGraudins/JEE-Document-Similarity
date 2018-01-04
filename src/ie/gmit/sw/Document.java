@@ -3,19 +3,19 @@ package ie.gmit.sw;
  * a string containing the document text.
  */
 public class Document {
-	private int docId;
+	private String docId;
 	private String document;
 	
-	public Document(int docId, String document){
+	public Document(String docId, String document){
 		this.docId = docId;
 		this.document = document;
 	}//Document
 
-	public int getDocId() {
+	public String getDocId() {
 		return docId;
 	}//getDocId
 
-	public void setDocId(int docId) {
+	public void setDocId(String docId) {
 		this.docId = docId;
 	}//setDocId
 

@@ -32,7 +32,7 @@ public class DatabaseImpl implements DatabaseService {
 	@Override
 	public void retrieveAll(ObjectContainer db) throws IOException {
 		System.out.println("Retrieving all documents...");
-		 Document d = new Document(0, null);
+		 Document d = new Document(null, null);
 		 ObjectSet result = db.queryByExample(d);
 		 listResult(result);
 	}//retrieveAll
@@ -62,7 +62,7 @@ public class DatabaseImpl implements DatabaseService {
 
 	//Update specific Document object
 	@Override
-	public void updateDocument(ObjectContainer db, Document d, int id) throws IOException {
+	public void updateDocument(ObjectContainer db, Document d, String id) throws IOException {
 		ObjectSet result = db.queryByExample(d);
 		Document found = (Document) result.next();
 		found.setDocId(id);

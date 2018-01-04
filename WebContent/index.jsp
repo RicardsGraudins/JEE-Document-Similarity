@@ -24,4 +24,3 @@
 	</tr>
 </table>
 <%@ include file="includes/footer.jsp" %>
-
