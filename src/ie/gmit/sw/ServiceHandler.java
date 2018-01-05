@@ -5,6 +5,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 
@@ -18,6 +21,7 @@ public class ServiceHandler extends HttpServlet {
 	private String environmentalVariable = null;
 	private static long jobNumber = 0;
 	private static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
+	private BlockingQueue<Shingle> queue = new ArrayBlockingQueue<Shingle>(200);
 	
 	public ServiceHandler(){
 		super();
@@ -68,12 +72,50 @@ public class ServiceHandler extends HttpServlet {
 		out.print("<font color=\"0000ff\">");
 		BufferedReader br = new BufferedReader(new InputStreamReader(part.getInputStream()));
 		String line = null;
-		String text = "";
+		String unfilteredText = "";
 		while ((line = br.readLine()) != null) {
 			out.print(line);
-			text = text + line;
+			unfilteredText = unfilteredText + line;
 		}
-
+		
+		//Remove all the special characters and replace with space
+		System.out.println("================================================");
+		String text = unfilteredText.replaceAll("[^a-zA-Z0-9]+"," ");
+		System.out.println(text);
+		
+		//test
+		String threeWords = "";
+		int counter = 0;
+		Shingle s = new Shingle(0,0);
+		
+		//split the text into array of strings
+		String[] words = text.split(" ");
+		
+		//split the words array into shingles with 3 words each
+		for(int i = 0; i < words.length; i++){
+			//System.out.println(words[i]);
+			counter++;
+			threeWords = threeWords + " " + words[i];
+			if(counter == 3){
+				System.out.println(threeWords);
+				threeWords = threeWords.toLowerCase();
+				s.setDocId(0);
+				s.setHashCode(threeWords.hashCode());
+				try {
+					queue.put(s);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println(s.toString());
+				threeWords = "";
+				counter = 0;
+			}
+		}
+		System.out.println("===========================");
+		System.out.println(queue.remainingCapacity());
+		System.out.println(queue.toString());
+		queue.clear();
+		/*
 		//Save the document...
 		Document d = new Document(title, text);
 		dbImpl.storeDocument(db, d);
@@ -97,7 +139,7 @@ public class ServiceHandler extends HttpServlet {
 		//Retrieve all documents..
 		System.out.println("=========retrieve===========");
 		dbImpl.retrieveAll(db);
-		
+		*/
 		
 		out.print("</font>");	
 	}//doGet
