@@ -73,12 +73,31 @@ public class ServiceHandler extends HttpServlet {
 			out.print(line);
 			text = text + line;
 		}
-		//Save the uploaded document to db4o
+
+		//Save the document...
 		Document d = new Document(title, text);
 		dbImpl.storeDocument(db, d);
 		dbImpl.retrieveDocument(db, d);
-		dbImpl.deleteDocument(db, d);
+		System.out.println("=======================");
+		
+		//Load up a document from DB to compare against..
+		Document d2 = new Document("", "");
+		d2 = dbImpl.retrieveDocumentById(db, title);
+		System.out.println("===========d2=============");
+		System.out.println(d2.toString());
+		
+		//Update the document id
+		System.out.println("============Update==========");
+		dbImpl.updateDocument(db, title, "Road2");
+		
+		//Delete the document
+		System.out.println("========delete============");
+		dbImpl.deleteDocument(db, "Road2");
+		
+		//Retrieve all documents..
+		System.out.println("=========retrieve===========");
 		dbImpl.retrieveAll(db);
+		
 		
 		out.print("</font>");	
 	}//doGet

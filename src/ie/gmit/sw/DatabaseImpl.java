@@ -53,19 +53,23 @@ public class DatabaseImpl implements DatabaseService {
 
 	//Delete specific Document object
 	@Override
-	public void deleteDocument(ObjectContainer db, Document d) throws IOException {
+	public void deleteDocument(ObjectContainer db, String id) throws IOException {
+		Document d = new Document(id, null);
 		ObjectSet result = db.queryByExample(d);
 		Document found = (Document) result.next();
 		db.delete(found);
-		System.out.println("Deleted document with ID: " + found.getDocId());
+		System.out.println("Successfully deleted.");
 	}//deleteDocument
 
 	//Update specific Document object
 	@Override
-	public void updateDocument(ObjectContainer db, Document d, String id) throws IOException {
+	public void updateDocument(ObjectContainer db,String id, String newId) throws IOException {
+		Document d = new Document(id, null);
 		ObjectSet result = db.queryByExample(d);
 		Document found = (Document) result.next();
-		found.setDocId(id);
+		db.delete(found);
+		found.setDocId(newId);
+		db.store(found);
 		System.out.println("Updated ID to: " + found.getDocId());
 	}//updateDocument
 
@@ -77,4 +81,19 @@ public class DatabaseImpl implements DatabaseService {
 			 System.out.println(result.next());
 		 }//while
 	}//listResult
+
+	//Retrieve Document object from db4o based on id and return Document object
+	@Override
+	public Document retrieveDocumentById(ObjectContainer db, String id) {
+		//create Document object with ID we're searching for..
+		Document d = new Document(id, null);
+		//query the database...
+		ObjectSet result = db.queryByExample(d);
+		//cast to Document
+		Document found = (Document) result.next();		
+		//Set document string to that of found.getDocument()
+		d.setDocument(found.getDocument());
+		//return Document object
+		return d;
+	}//retrieveDocumentObj
 }//DatabaseImpl
