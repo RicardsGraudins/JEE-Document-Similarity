@@ -3,13 +3,9 @@ package ie.gmit.sw;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 
 @SuppressWarnings("serial")
 @WebServlet("/UploadServlet")
@@ -20,21 +16,12 @@ public class ServiceHandler extends HttpServlet {
 	@SuppressWarnings("unused")
 	private String environmentalVariable = null;
 	private static long jobNumber = 0;
-	private static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
-	private BlockingQueue<Shingle> queue = new ArrayBlockingQueue<Shingle>(200);
 	
 	public ServiceHandler(){
 		super();
 	}
-	
-	//public void init() throws ServletException {
-	//	ServletContext ctx = getServletContext();
-	//	environmentalVariable = ctx.getInitParameter("SOME_GLOBAL_OR_ENVIRONMENTAL_VARIABLE");
-	//}//init
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
-		DatabaseImpl dbImpl = new DatabaseImpl();
 		
 		resp.setContentType("text/html"); 	
 		PrintWriter out = resp.getWriter(); 
@@ -76,70 +63,13 @@ public class ServiceHandler extends HttpServlet {
 		while ((line = br.readLine()) != null) {
 			out.print(line);
 			unfilteredText = unfilteredText + line;
-		}
+		}//while
 		
-		//Remove all the special characters and replace with space
-		System.out.println("================================================");
+		//replace all special characters with space
 		String text = unfilteredText.replaceAll("[^a-zA-Z0-9]+"," ");
-		System.out.println(text);
-		
-		//test
-		String threeWords = "";
-		int counter = 0;
-		Shingle s = new Shingle(0,0);
-		
-		//split the text into array of strings
-		String[] words = text.split(" ");
-		
-		//split the words array into shingles with 3 words each
-		for(int i = 0; i < words.length; i++){
-			//System.out.println(words[i]);
-			counter++;
-			threeWords = threeWords + " " + words[i];
-			if(counter == 3){
-				System.out.println(threeWords);
-				threeWords = threeWords.toLowerCase();
-				s.setDocId(0);
-				s.setHashCode(threeWords.hashCode());
-				try {
-					queue.put(s);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.out.println(s.toString());
-				threeWords = "";
-				counter = 0;
-			}
-		}
-		System.out.println("===========================");
-		System.out.println(queue.remainingCapacity());
-		System.out.println(queue.toString());
-		queue.clear();
-		/*
-		//Save the document...
-		Document d = new Document(title, text);
-		dbImpl.storeDocument(db, d);
-		dbImpl.retrieveDocument(db, d);
-		System.out.println("=======================");
-		
-		//Load up a document from DB to compare against..
-		Document d2 = new Document("", "");
-		d2 = dbImpl.retrieveDocumentById(db, title);
-		System.out.println("===========d2=============");
-		System.out.println(d2.toString());
-		
-		//Update the document id
-		System.out.println("============Update==========");
-		dbImpl.updateDocument(db, title, "Road2");
-		
-		//Delete the document
-		System.out.println("========delete============");
-		dbImpl.deleteDocument(db, "Road2");
-		
-		//Retrieve all documents..
-		System.out.println("=========retrieve===========");
-		dbImpl.retrieveAll(db);
-		*/
+		Document document = new Document(title, text);
+		Worker worker = new Worker(document);
+		worker.main(null);
 		
 		out.print("</font>");	
 	}//doGet

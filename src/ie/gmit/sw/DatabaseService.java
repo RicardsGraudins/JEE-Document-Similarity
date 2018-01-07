@@ -9,7 +9,6 @@ import com.db4o.ObjectSet;
 * All the methods throw IOException in case we can't find the db4o file.
 */
 public interface DatabaseService {
-	public void accessDb4o() throws IOException;
 	public void deleteDb() throws IOException;
 	public void retrieveAll(ObjectContainer db) throws IOException;
 	public void retrieveDocument(ObjectContainer db, Document d) throws IOException;

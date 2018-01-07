@@ -8,18 +8,6 @@ import com.db4o.*;
 @SuppressWarnings("rawtypes")
 public class DatabaseImpl implements DatabaseService {
 	public static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
-	
-	@Override
-	public void accessDb4o() throws IOException {
-		 ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
-		 try {
-			 // db4o code...
-			 System.out.println("Accessing database...");
-		 } finally {
-			 db.close();
-		 }//finally
-	}//accessDb4o
-
 	//Delete the database
 	@Override
 	public void deleteDb() throws IOException {
@@ -90,7 +78,7 @@ public class DatabaseImpl implements DatabaseService {
 		//query the database...
 		ObjectSet result = db.queryByExample(d);
 		//cast to Document
-		Document found = (Document) result.next();		
+		Document found = (Document) result.next();
 		//Set document string to that of found.getDocument()
 		d.setDocument(found.getDocument());
 		//return Document object
