@@ -21,6 +21,7 @@ public class ServiceHandler extends HttpServlet {
 		super();
 	}
 
+	@SuppressWarnings("static-access")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		resp.setContentType("text/html"); 	
@@ -65,9 +66,10 @@ public class ServiceHandler extends HttpServlet {
 			unfilteredText = unfilteredText + line;
 		}//while
 		
-		//replace all special characters with space
+		//Replace all special characters with space
 		String text = unfilteredText.replaceAll("[^a-zA-Z0-9]+"," ");
 		Document document = new Document(title, text);
+		//Start new worker
 		Worker worker = new Worker(document);
 		worker.main(null);
 		

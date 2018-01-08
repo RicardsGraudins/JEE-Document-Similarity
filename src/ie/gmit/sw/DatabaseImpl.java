@@ -3,12 +3,14 @@ package ie.gmit.sw;
 import java.io.File;
 import java.io.IOException;
 import com.db4o.*;
+import com.db4o.ext.StoredClass;
 
-//Implementation of DatabaseService
+//Implementation of DatabaseService - code for all the methods exposed by DatabaseService.
 @SuppressWarnings("rawtypes")
 public class DatabaseImpl implements DatabaseService {
 	public static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
-	//Delete the database
+	
+	//Delete the db4o file
 	@Override
 	public void deleteDb() throws IOException {
 		System.out.println("Deleting database...");
@@ -25,14 +27,14 @@ public class DatabaseImpl implements DatabaseService {
 		 listResult(result);
 	}//retrieveAll
 
-	//Retrieve specific Document object
+	//Retrieve a specific Document object
 	@Override
 	public void retrieveDocument(ObjectContainer db, Document d) throws IOException {
 		ObjectSet result = db.queryByExample(d);
 		listResult(result);
 	}//retrieveDocument
 
-	//Save the Document object to file DB40FILENAME
+	//Save the Document object
 	@Override
 	public void storeDocument(ObjectContainer db, Document d) throws IOException {
 		db.store(d);
@@ -72,16 +74,27 @@ public class DatabaseImpl implements DatabaseService {
 
 	//Retrieve Document object from db4o based on id and return Document object
 	@Override
-	public Document retrieveDocumentById(ObjectContainer db, String id) {
-		//create Document object with ID we're searching for..
+	public Document retrieveDocumentById(ObjectContainer db, String id) throws IOException {
+		System.out.println("Retrieving document with ID: " + id);
 		Document d = new Document(id, null);
-		//query the database...
 		ObjectSet result = db.queryByExample(d);
-		//cast to Document
 		Document found = (Document) result.next();
-		//Set document string to that of found.getDocument()
 		d.setDocument(found.getDocument());
-		//return Document object
 		return d;
-	}//retrieveDocumentObj
+	}//retrieveDocumentById
+	
+	//Count how many documents are stored in the database
+	@Override
+	public int countDocuments(ObjectContainer db) throws IOException {
+	    int numberOfObjects = 0;
+	    for(StoredClass storedClass : db.ext().storedClasses()){
+	        //filter out db4o internal objects and objects which have a parent-class
+	        if(!storedClass.getName().startsWith("com.db4o") &&
+	                null == storedClass.getParentStoredClass()) {
+	            numberOfObjects += storedClass.instanceCount();
+	        }//if
+	    }//for
+	    System.out.println("Number of objects stored is: " + numberOfObjects);
+	    return numberOfObjects;
+	}//countDocuments
 }//DatabaseImpl

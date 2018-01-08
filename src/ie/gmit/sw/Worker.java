@@ -1,8 +1,10 @@
 package ie.gmit.sw;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
+@SuppressWarnings("unused")
 public class Worker {
 	private static Document document;
 	private static Document document2;
@@ -16,30 +18,33 @@ public class Worker {
 	}//Worker
 
 	public static void main(String[] args) throws IOException {
-		//1. Store in Database..
-		//Instantiate DatabaseHandler - should only accept one document at this point. - Singleton also
+		//Store new document in database
 		DatabaseHandler database = DatabaseHandler.getInstance();
 		database.storeDocument(document);
 		
-		//2. Create shingles
-		//Instantiate Jaccard
-		Jaccard jaccard = new Jaccard();
+		//Create shingles
+		Jaccard jaccard = new JaccardImpl();
 		//shingles = jaccard.createShingles(document, 0);
 		//System.out.println(Arrays.toString(shingles.toArray()));
 		
-		//3. Retrieve different document from DB
+		//Retrieve different document from DB to compare against
 		document2 = database.retrieveDocument("Road");
 		// Create shingles
 		//shingles2 = jaccard.createShingles(document2, 1);
 		//System.out.println(Arrays.toString(shingles2.toArray()));
 		
+		//Generate hash codes for the 2 documents
 		hashCodes = jaccard.createHashCodes(document);
 		hashCodes2 = jaccard.createHashCodes(document2);
 		
+		//Create 2 integer arrays from hashCodes & hashCodes array lists
 		Integer[] a = hashCodes.toArray(new Integer[hashCodes.size()]);
 		Integer[] b = hashCodes2.toArray(new Integer[hashCodes2.size()]);
 		
+		//Calculate Jaccard Similarity
 		double similarity = jaccard.jaccardSimilarity(a, b);
-		System.out.println(similarity);
+		DecimalFormat df = new DecimalFormat("#%");
+		//System.out.println(similarity);
+		System.out.println("Similarity: " + df.format(similarity));
 	}//main
 }//Worker
