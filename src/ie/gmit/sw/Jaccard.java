@@ -34,7 +34,26 @@ public interface Jaccard {
 	 */
 	public double jaccardSimilarity(Integer[] a, Integer[] b);
 		
+	/**
+	 * Generate 200 random numbers.
+	 *
+	 * @return The TreeSet containing the randomly generated numbers.
+	 */
 	public TreeSet<Integer> generateRandomNumbers();
+	
+	/**
+	 * Generate Min Hashes.
+	 *
+	 * @param shingles Pass in a list consisting of Shingle objects.
+	 * @return The Integer list containing the Min Hashes.
+	 */
 	public List<Integer> generateMinHashes(List<Shingle> shingles);
+	
+	/**
+	 * Calculate Jaccard using the minHash algorithm.
+	 *
+	 * @param shingles Pass in a list consisting of Shingle objects - used by generateMinHashes.
+	 * @return The double containing the % similarity.
+	 */
 	public double calculateJaccard(List<Shingle> shingles);
 }//Jaccard

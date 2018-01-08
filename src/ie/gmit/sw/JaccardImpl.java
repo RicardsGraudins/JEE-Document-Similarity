@@ -8,13 +8,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
-
 /**
  * Implementation of Jaccard - code for all the methods exposed by Jaccard.
  */
 public class JaccardImpl implements Jaccard {
+	
+	/** The max amount of hashes. */
 	private final int MAX_HASH = 200;
+	
+	/** The hashes TreeSet consisting of random numbers. */
 	private TreeSet<Integer> hashes = new TreeSet<Integer>();
+	
+	/** The Integer list consisting of Min Hashes. */
 	private List<Integer> newDocument = new ArrayList<Integer>();
 	
 	/* (non-Javadoc)
@@ -112,6 +117,9 @@ public class JaccardImpl implements Jaccard {
 	    return 1d / (sa + sb - intersection) * intersection;
 	}//jaccardSimilarity
 	
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.Jaccard#generateRandomNumbers()
+	 */
 	//Generate Random numbers
 	@Override
 	public TreeSet<Integer> generateRandomNumbers(){
@@ -124,6 +132,9 @@ public class JaccardImpl implements Jaccard {
 		return hashes;
 	}//generateRandomNumbers
 	
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.Jaccard#generateMinHashes(java.util.List)
+	 */
 	//Generate Min Hashes
 	@Override
 	public List<Integer> generateMinHashes(List<Shingle> shingles){
@@ -147,6 +158,9 @@ public class JaccardImpl implements Jaccard {
 		return temp;
 	}//generateMinHashes
 	
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.Jaccard#calculateJaccard(java.util.List)
+	 */
 	public double calculateJaccard(List<Shingle> shingles){
 		double result = 0;
 		
