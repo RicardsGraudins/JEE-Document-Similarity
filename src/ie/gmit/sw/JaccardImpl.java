@@ -1,14 +1,21 @@
 package ie.gmit.sw;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Implementation of Jaccard - code for all the methods exposed by Jaccard.
  */
 public class JaccardImpl implements Jaccard {
+	private final int MAX_HASH = 200;
+	private TreeSet<Integer> hashes = new TreeSet<Integer>();
+	private List<Integer> newDocument = new ArrayList<Integer>();
 	
 	/* (non-Javadoc)
 	 * @see ie.gmit.sw.Jaccard#createShingles(ie.gmit.sw.Document, int)
@@ -104,12 +111,59 @@ public class JaccardImpl implements Jaccard {
 	    int intersection = s1.size();
 	    return 1d / (sa + sb - intersection) * intersection;
 	}//jaccardSimilarity
-
-	/* (non-Javadoc)
-	 * @see ie.gmit.sw.Jaccard#minHash(java.util.List, java.util.List)
-	 */
+	
+	//Generate Random numbers
 	@Override
-	public void minHash(List<Shingle> Shingles, List<Shingle> Shingles2) {
-
-	}//minHash
+	public TreeSet<Integer> generateRandomNumbers(){
+		hashes = new TreeSet<Integer>();
+		Random random = new Random();
+		
+		for(int i = 0; i < MAX_HASH; i++){
+			hashes.add(random.nextInt());
+		}//for
+		return hashes;
+	}//generateRandomNumbers
+	
+	//Generate Min Hashes
+	@Override
+	public List<Integer> generateMinHashes(List<Shingle> shingles){
+		List<Shingle> s = shingles;
+		List<Integer> temp = new ArrayList<Integer>();
+		
+		//XOR the integer word values with the hashes
+		for (Integer hash: hashes){
+			int min = Integer.MAX_VALUE;
+			for(int i = 0; i < s.size(); i++){
+				//Bitwise XOR the string hashCode with the hash
+				int minHash = s.get(i).getHashCode()^hash;
+				if(minHash < min){
+					min = minHash;
+				}//if
+			}//for
+			//Only store the shingle with the minimum hash for each hash function
+			temp.add(min);
+		}//for
+		
+		return temp;
+	}//generateMinHashes
+	
+	public double calculateJaccard(List<Shingle> shingles){
+		double result = 0;
+		
+		hashes = generateRandomNumbers();
+		System.out.println("\ngenerateRandomNumbers");
+		System.out.println("=====================");
+		Iterator<Integer> itr = hashes.iterator();
+		while(itr.hasNext()){
+			System.out.println(itr.next());
+		}
+		
+		newDocument = generateMinHashes(shingles);
+		System.out.println("\ngenerateMinHashes");
+		System.out.println("=================");
+		System.out.println(Arrays.toString(newDocument.toArray()));
+		
+		
+		return result;
+	}//calculateJaccard
 }//JaccardImpl

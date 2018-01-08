@@ -1,6 +1,7 @@
 package ie.gmit.sw;
 
 import java.util.List;
+import java.util.TreeSet;
 /**
  * The interface Jaccard exposes methods a user can invoke that are relevant
  * to finding the Jaccard similarity & minHash.
@@ -32,12 +33,8 @@ public interface Jaccard {
 	 * @return The double result of the calculation.
 	 */
 	public double jaccardSimilarity(Integer[] a, Integer[] b);
-	
-	/**
-	 * Calculate the minHash by passing in 2 Lists containing Shingle objects.
-	 *
-	 * @param Shingles The shingles variable represents the first list containing Shingle objects.
-	 * @param Shingles2 The shingles2 variable represents the second list containing Shingle objects.
-	 */
-	public void minHash(List<Shingle> Shingles, List<Shingle> Shingles2);
+		
+	public TreeSet<Integer> generateRandomNumbers();
+	public List<Integer> generateMinHashes(List<Shingle> shingles);
+	public double calculateJaccard(List<Shingle> shingles);
 }//Jaccard

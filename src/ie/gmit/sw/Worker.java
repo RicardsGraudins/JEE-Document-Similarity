@@ -7,7 +7,6 @@ import java.util.*;
 /**
  * Worker - Instantiates other classes and executes their methods.
  */
-@SuppressWarnings("unused")
 public class Worker {
 	
 	/** The Document object passed. */
@@ -18,9 +17,6 @@ public class Worker {
 	
 	/** The list shingles contains Shingle objects of document. */
 	private static List<Shingle> shingles = new ArrayList<Shingle>();
-	
-	/** The list shingles2 contains Shingle objects of document2. */
-	private static List<Shingle> shingles2 = new ArrayList<Shingle>();
 	
 	/** The list hashCodes contains Integer (hashCodes) of document. */
 	private static List<Integer> hashCodes = new ArrayList<Integer>();
@@ -45,20 +41,16 @@ public class Worker {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static void main(String[] args) throws IOException {
-		//Store new document in database.
+		//Create instances of DatabaseHandler & Jaccard
 		DatabaseHandler database = DatabaseHandler.getInstance();
+		Jaccard jaccard = new JaccardImpl();
+		
+		//Store the new document in the database.
 		database.storeDocument(document);
 		
-		//Create shingles.
-		Jaccard jaccard = new JaccardImpl();
-		//shingles = jaccard.createShingles(document, 0);
-		//System.out.println(Arrays.toString(shingles.toArray()));
-		
-		//Retrieve different document from DB to compare against.
+		//Calculating Jaccard similarity...
+		//Retrieving a document from the DB to compare against.
 		document2 = database.retrieveDocument("Road");
-		// Create shingles.
-		//shingles2 = jaccard.createShingles(document2, 1);
-		//System.out.println(Arrays.toString(shingles2.toArray()));
 		
 		//Generate hash codes for the 2 documents.
 		hashCodes = jaccard.createHashCodes(document);
@@ -72,6 +64,11 @@ public class Worker {
 		double similarity = jaccard.jaccardSimilarity(a, b);
 		DecimalFormat df = new DecimalFormat("#%");
 		//System.out.println(similarity);
-		System.out.println("Similarity: " + df.format(similarity));
+		System.out.println("\nSimilarity: " + df.format(similarity));
+		
+		//CalculateJaccard
+		//Create shingles.
+		shingles = jaccard.createShingles(document, 0);
+		jaccard.calculateJaccard(shingles);
 	}//main
 }//Worker
