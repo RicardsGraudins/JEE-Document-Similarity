@@ -3,24 +3,36 @@ package ie.gmit.sw;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * The Class ServiceHandler is a servlet for /UploadServlet.
+ */
 @SuppressWarnings("serial")
 @WebServlet("/UploadServlet")
 @MultipartConfig(fileSizeThreshold=1024*1024*2,
                  maxFileSize=1024*1024*10,
                  maxRequestSize=1024*1024*50)
 public class ServiceHandler extends HttpServlet {
+	
+	/** The environmental variable. */
 	@SuppressWarnings("unused")
 	private String environmentalVariable = null;
+	
+	/** The job number. */
 	private static long jobNumber = 0;
 	
+	/**
+	 * Instantiates a new ServiceHandler.
+	 */
 	public ServiceHandler(){
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@SuppressWarnings("static-access")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -76,6 +88,9 @@ public class ServiceHandler extends HttpServlet {
 		out.print("</font>");	
 	}//doGet
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
  	}//doPost

@@ -3,14 +3,23 @@ package ie.gmit.sw;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
+/**
+ * The Class ServicePollHandler handles polls.
+ */
 @SuppressWarnings("serial")
 public class ServicePollHandler extends HttpServlet {
+	
+	/* (non-Javadoc)
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	public void init() throws ServletException {
 		@SuppressWarnings("unused")
 		ServletContext ctx = getServletContext();
 	}//init
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html"); 
 		PrintWriter out = resp.getWriter(); 
@@ -44,6 +53,9 @@ public class ServicePollHandler extends HttpServlet {
 		out.print("</script>");
 	}//doGet
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
  	}//doPost

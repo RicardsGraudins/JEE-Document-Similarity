@@ -4,13 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import com.db4o.*;
 import com.db4o.ext.StoredClass;
-
-//Implementation of DatabaseService - code for all the methods exposed by DatabaseService.
+/**
+ * Implementation of DatabaseService - code for all the methods exposed by DatabaseService.
+ */
 @SuppressWarnings("rawtypes")
 public class DatabaseImpl implements DatabaseService {
+	
+	/** DB4OFILENAME is the path to the db4o file. */
 	public static final String DB4OFILENAME = "C:/Users/Richard/Jaccard/JACCARD/Resources/JaccardDB.db4o";
 	
-	//Delete the db4o file
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#deleteDb()
+	 */
+	//Delete the db4o file.
 	@Override
 	public void deleteDb() throws IOException {
 		System.out.println("Deleting database...");
@@ -18,7 +24,10 @@ public class DatabaseImpl implements DatabaseService {
 			file.delete();
 	}//deleteDb
 
-	//Retrieve all Document objects
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#retrieveAll(com.db4o.ObjectContainer)
+	 */
+	//Retrieve all Document objects.
 	@Override
 	public void retrieveAll(ObjectContainer db) throws IOException {
 		System.out.println("Retrieving all documents...");
@@ -27,21 +36,30 @@ public class DatabaseImpl implements DatabaseService {
 		 listResult(result);
 	}//retrieveAll
 
-	//Retrieve a specific Document object
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#retrieveDocument(com.db4o.ObjectContainer, ie.gmit.sw.Document)
+	 */
+	//Retrieve a specific Document object.
 	@Override
 	public void retrieveDocument(ObjectContainer db, Document d) throws IOException {
 		ObjectSet result = db.queryByExample(d);
 		listResult(result);
 	}//retrieveDocument
 
-	//Save the Document object
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#storeDocument(com.db4o.ObjectContainer, ie.gmit.sw.Document)
+	 */
+	//Save the Document object.
 	@Override
 	public void storeDocument(ObjectContainer db, Document d) throws IOException {
 		db.store(d);
 		System.out.println("Saved document with ID: " + d.getDocId());
 	}//storeDocument
 
-	//Delete specific Document object
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#deleteDocument(com.db4o.ObjectContainer, java.lang.String)
+	 */
+	//Delete a specific Document object.
 	@Override
 	public void deleteDocument(ObjectContainer db, String id) throws IOException {
 		Document d = new Document(id, null);
@@ -51,7 +69,10 @@ public class DatabaseImpl implements DatabaseService {
 		System.out.println("Successfully deleted.");
 	}//deleteDocument
 
-	//Update specific Document object
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#updateDocument(com.db4o.ObjectContainer, java.lang.String, java.lang.String)
+	 */
+	//Update a specific Document object.
 	@Override
 	public void updateDocument(ObjectContainer db,String id, String newId) throws IOException {
 		Document d = new Document(id, null);
@@ -63,7 +84,10 @@ public class DatabaseImpl implements DatabaseService {
 		System.out.println("Updated ID to: " + found.getDocId());
 	}//updateDocument
 
-	//Output db4o content
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#listResult(com.db4o.ObjectSet)
+	 */
+	//Output db4o content.
 	@Override
 	public void listResult(ObjectSet result) {
 		 System.out.println(result.size());
@@ -72,7 +96,10 @@ public class DatabaseImpl implements DatabaseService {
 		 }//while
 	}//listResult
 
-	//Retrieve Document object from db4o based on id and return Document object
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#retrieveDocumentById(com.db4o.ObjectContainer, java.lang.String)
+	 */
+	//Retrieve Document object from db4o based on id and return Document object.
 	@Override
 	public Document retrieveDocumentById(ObjectContainer db, String id) throws IOException {
 		System.out.println("Retrieving document with ID: " + id);
@@ -83,7 +110,10 @@ public class DatabaseImpl implements DatabaseService {
 		return d;
 	}//retrieveDocumentById
 	
-	//Count how many documents are stored in the database
+	/* (non-Javadoc)
+	 * @see ie.gmit.sw.DatabaseService#countDocuments(com.db4o.ObjectContainer)
+	 */
+	//Count how many documents are stored in the database.
 	@Override
 	public int countDocuments(ObjectContainer db) throws IOException {
 	    int numberOfObjects = 0;
