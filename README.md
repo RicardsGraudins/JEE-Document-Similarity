@@ -44,7 +44,15 @@ Refer to the following [link](https://en.wikipedia.org/wiki/Jaccard_index) for a
 In computer science, MinHash (or the min-wise independent permutations locality sensitive hashing scheme) is a technique for quickly estimating how similar two sets are. The scheme was invented by Andrei Broder (1997), and initially used in the AltaVista search engine to detect duplicate web pages and eliminate them from search results. It has also been applied in large-scale clustering problems, such as clustering documents by the similarity of their sets of words. MinHash is commonly used alongside the Jaccard similarity coefficient to estimate J(A,B) quickly, without explicitly computing the intersection and union. Calculating the estimate is a much faster alternative to using the Jaccard Index and should be used when comparing large sets in the interest of time.
 
 ## How to run:
+1. Download [Tomcat](https://tomcat.apache.org/download-70.cgi).
+2. Place JACCARD.WAR into `path/to/apache-tomcat-version/webapps`.
+3. Open console window and CD into `path/to/apache-tomcat-version/bin`.
+4. In the console: `SET JAVA_HOME=path/to/Java/jdk`.
+5. In the console: `SET JRE_HOME=path/to//Java/jdk`.
+6. In the console: `startup.bat`.
+7. In the browser navigate to `127.0.0.1:8080/JACCARD`.
 
+Settng this project up in eclipse can be slightly cumbersome therefore do so at your own discretion.
 ## References:
 * [Apache Tomcat](http://tomcat.apache.org/)
 * [Servlets](https://www.tutorialspoint.com/servlets/)
